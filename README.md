@@ -1,3 +1,5 @@
+# WIP! Hangar is not ready for use.
+
 # Hangar
 
 A place to park your OAuth tokens
