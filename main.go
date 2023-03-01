@@ -52,6 +52,13 @@ func main() {
 		baseURL = fmt.Sprintf("http://%s:%s", host, port)
 	}
 
+	signingSecret := os.Getenv("SIGNING_SECRET")
+	if signingSecret == "" {
+		log.Fatal("SIGNING_SECRET is required.")
+	} else if len(signingSecret) < 32 {
+		log.Fatal("For security reasons, SIGNING_SECRET must be at least 32 characters.")
+	}
+
 	configs := make(map[string]oauth2.Config)
 	for _, e := range os.Environ() {
 		parts := strings.Split(e, "=")
