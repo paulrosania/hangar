@@ -47,9 +47,9 @@ func main() {
 		port = "8080"
 	}
 
-	baseUrl := os.Getenv("BASE_URL")
-	if baseUrl == "" {
-		baseUrl = fmt.Sprintf("http://%s:%s", host, port)
+	baseURL := os.Getenv("BASE_URL")
+	if baseURL == "" {
+		baseURL = fmt.Sprintf("http://%s:%s", host, port)
 	}
 
 	configs := make(map[string]oauth2.Config)
@@ -58,7 +58,7 @@ func main() {
 		key := parts[0]
 		if strings.HasSuffix(key, "_CLIENT_ID") {
 			provider := strings.ToLower(strings.TrimSuffix(key, "_CLIENT_ID"))
-			conf := loadConfig(provider, baseUrl)
+			conf := loadConfig(provider, baseURL)
 			log.Printf("Detected '%s' configuration.\n", provider)
 			configs[provider] = conf
 			http.HandleFunc(fmt.Sprintf("/auth/%s", provider), func(w http.ResponseWriter, r *http.Request) {
