@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/joho/godotenv"
 )
 
 func cleanup() {
@@ -14,6 +16,11 @@ func cleanup() {
 }
 
 func main() {
+	err := godotenv.Load()
+	if err != nil && !os.IsNotExist(err) {
+		log.Fatal("Error loading .env file: ", err)
+	}
+
 	host := os.Getenv("HOST")
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -31,7 +38,7 @@ func main() {
 
 	addr := fmt.Sprintf("%s:%s", host, port)
 	log.Printf("🛫 Hangar server starting at %s.\n", addr)
-	err := http.ListenAndServe(addr, nil)
+	err = http.ListenAndServe(addr, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
